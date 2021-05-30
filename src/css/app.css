@@ -7,3 +7,8 @@
 }
 
 /* Your app custom styles here */
+
+.leaflet-container{
+  width: 100%;
+  height: 100%;
+}
