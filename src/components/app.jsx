@@ -30,8 +30,7 @@ import store from '../js/store';
 
 const MyApp = () => {
   // Login screen demo data
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+
 
   // Framework7 Parameters
   const f7params = {
@@ -44,11 +43,7 @@ const MyApp = () => {
     routes: routes,
     
   };
-  const alertLoginData = () => {
-    f7.dialog.alert('Username: ' + username + '<br>Password: ' + password, () => {
-      f7.loginScreen.close();
-    });
-  }
+
   f7ready(() => {
 
 
@@ -70,7 +65,7 @@ const MyApp = () => {
 
       {/* Your main view, should have "view-main" class */}
       <View main className="safe-areas" url="/" />
-
+      
     </App>
   )
 }
