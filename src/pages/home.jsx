@@ -19,7 +19,7 @@ import {
   Button
 } from 'framework7-react';
 
-import Map from '../js/map';
+import MapObj from '../js/map';
 
 const HomePage = () => (
   <Page name="home">
@@ -37,7 +37,7 @@ const HomePage = () => (
       <Link href="/form/">Form</Link>
     </Toolbar>
     {/* Page content */}
-    <Map />
+    <MapObj />
     
     
   </Page>
