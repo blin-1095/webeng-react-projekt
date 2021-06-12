@@ -1,15 +1,20 @@
 import { value } from 'dom7';
 import React, { useState } from 'react';
 
-const WikiApi = ({coordinates}) => {
-    const [cityName, setCityName] = useState ('')
-    const [wikiResult, setWikiResult] = useState('')
-    const [wikiResultUrl, setWikiResultUrl] = useState('')
-    console.log(coordinates);
-
+class WikiApi2 extends React.Component {
+    WikiApi(coordinates){
+        var coordinates = coordinates;
+        var cityName;
+        var wikiResult;
+        var wikiResultUrl;
+    }
     
+    componentDidMount(){
+        setTimeout(this.reverseGeocoding(this.coordinates.lng, this.coordinates.lat) ,1000);
+        
+    }
     
-    function reverseGeocoding(lon, lat) {
+    reverseGeocoding(lon, lat) {
         fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).
         then(function(response) {
             return response.json();
@@ -20,13 +25,13 @@ const WikiApi = ({coordinates}) => {
 
             const add = json.display_name.split(', ');
             const pos = {streetNo: add[0], street: add[1], suburb: add[2], city: add[3], county: add[4], country: add[5], zip: add[6], state: add[7] };
-            setCityName(pos['city']);
+            this.cityName = pos['city'];
         })
-        .then(function() {useWikiApi()})
+        //.then(function() {useWikiApi()})
         
     }
 
-    function useWikiApi() {
+    useWikiApi() {
         
 
         var url = "https://en.wikipedia.org/w/api.php?origin=*";
@@ -47,25 +52,26 @@ const WikiApi = ({coordinates}) => {
                 console.log(response);
                 var pageId = response.query.search[0].pageid;
                 var urlPageId = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageId}&inprop=url&format=json`;
-                setWikiResult(response.query.search[0].title)
                 fetch(urlPageId)
                     .then(function(response){
                         return response.json();
                     })
-                    .then(function(response){ 
+                    .then(function(response){
                         setWikiResultUrl(response.query.pages[pageId].fullurl)
                     })
             })
     }
 
-    return (
-        //reverseGeocoding(coordinates.lng, coordinates.lat)
-        //onLoadStart={setTimeout(reverseGeocoding(coordinates.lng, coordinates.lat), 5000)}
-        <div >
-            <a href={wikiResultUrl}>{wikiResult}</a>
-        </div>
-        
-    )
+    render() {
+        return (
+            //reverseGeocoding(coordinates.lng, coordinates.lat)
+            <div >
+                {this.cityName}
+            </div>
+            
+        )
+    }
+    
 }
 
-export default WikiApi;
+export default WikiApi2;

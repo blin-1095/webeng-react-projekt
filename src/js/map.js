@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
+import WikiApi from './wikiAPI';
+import WikiApi2 from './wikiAPI copy';
 
 
 var coordinates = [47.66, 9.48];
 
 function ClickMarker() {
+    const [wikiSearchTerm, setWikiSearchTerm] = useState('')
+    const [coordinates, setCoordinates] = useState(0)
     const [position, setPosition] = useState(null)
     const map = useMapEvents({
       click(ev) {
         setPosition(map.mouseEventToLatLng(ev.originalEvent));
+        setCoordinates(map.mouseEventToLatLng(ev.originalEvent));
       }
     })
   
     return position === null ? null : (
-      <Marker position={position}>
-        <Popup>Chosen location.</Popup>
+      <Marker position={position} >
+        
+        <Popup>
+          {<WikiApi coordinates={coordinates}/>}
+          
+
+        </Popup>
+        
       </Marker>
     )
   }
