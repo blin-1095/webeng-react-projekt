@@ -1,5 +1,4 @@
 import React from 'react';
-import WikiApi from '../js/wikiAPI';
 
 import {
   Page,

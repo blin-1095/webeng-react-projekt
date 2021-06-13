@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
-import WikiApi from './wikiAPI';
-import WikiApi2 from './wikiAPI copy';
+import { reverseGeocoding, WikiApi } from "./wikiAPI";
 
 
-var coordinates = [47.66, 9.48];
+var default_coordinates = [47.66, 9.48];
 
 function ClickMarker() {
-    const [wikiSearchTerm, setWikiSearchTerm] = useState('')
-    const [coordinates, setCoordinates] = useState(0)
-    const [position, setPosition] = useState(null)
+    
+    const [wikiResult, setWikiResult] = useState('');
+    const [wikiResultUrl, setWikiResultUrl] = useState('');
+    const [coordinates, setCoordinates] = useState(0);
+    const [position, setPosition] = useState(null);
+
     const map = useMapEvents({
       click(ev) {
         setPosition(map.mouseEventToLatLng(ev.originalEvent));
         setCoordinates(map.mouseEventToLatLng(ev.originalEvent));
+        console.log(coordinates.lng + coordinates.lat);
+        reverseGeocoding(coordinates.lng, coordinates.lat, setWikiResult, setWikiResultUrl);
       }
     })
-  
+    
     return position === null ? null : (
       <Marker position={position} >
         
         <Popup>
-          {<WikiApi coordinates={coordinates}/>}
-          
-
+          <WikiApi wikiResult = {wikiResult} wikiResultUrl = {wikiResultUrl}/>
         </Popup>
         
       </Marker>
@@ -57,7 +59,7 @@ function LocationMarker() {
 const MapObj = () => {
 
     return (
-        <MapContainer center={coordinates} zoom={13} scrollWheelZoom={true}>
+        <MapContainer center={default_coordinates} zoom={13} worldCopyJump={true} scrollWheelZoom={true}>
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
