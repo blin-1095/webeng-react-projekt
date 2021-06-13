@@ -5,22 +5,24 @@ import { reverseGeocoding, WikiApi } from "./wikiAPI";
 
 var default_coordinates = [47.66, 9.48];
 
+
 function ClickMarker() {
     
     const [wikiResult, setWikiResult] = useState('');
     const [wikiResultUrl, setWikiResultUrl] = useState('');
     const [coordinates, setCoordinates] = useState(0);
     const [position, setPosition] = useState(null);
-
+  
     const map = useMapEvents({
       click(ev) {
         setPosition(map.mouseEventToLatLng(ev.originalEvent));
         setCoordinates(map.mouseEventToLatLng(ev.originalEvent));
         console.log(coordinates.lng + coordinates.lat);
-        reverseGeocoding(coordinates.lng, coordinates.lat, setWikiResult, setWikiResultUrl);
       }
     })
     
+    reverseGeocoding(coordinates.lng, coordinates.lat, setWikiResult, setWikiResultUrl);
+
     return position === null ? null : (
       <Marker position={position} >
         
