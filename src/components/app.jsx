@@ -42,7 +42,12 @@ const MyApp = () => {
     store: store,
     // App routes
     routes: routes,
-    
+
+    //service worker attempt AW
+    serviceWorker: {
+      path: './custom-service-worker.js',
+      scope: '/',
+    }
   };
   const alertLoginData = () => {
     f7.dialog.alert('Username: ' + username + '<br>Password: ' + password, () => {
