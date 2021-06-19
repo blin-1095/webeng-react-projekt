@@ -62,6 +62,7 @@ const MapObj = () => {
 
     return (
         <MapContainer center={default_coordinates} zoom={13} worldCopyJump={true} scrollWheelZoom={true}>
+            <SearchField  />
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -70,6 +71,25 @@ const MapObj = () => {
             <ClickMarker />
         </MapContainer>
     )
+}
+
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+const SearchField = () => {
+  const provider = new OpenStreetMapProvider();
+
+  // @ts-ignore
+  const searchControl = new GeoSearchControl({
+    provider: provider,
+    style: 'button'
+  });
+
+  const map = useMap();
+  useEffect(() => {
+    map.addControl(searchControl);
+    return () => map.removeControl(searchControl);
+  }, [])
+
+  return null;
 }
 
 export default MapObj;
