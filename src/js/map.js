@@ -45,8 +45,8 @@ function LocationMarker() {
         setPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
       }).on("locationerror", function (){
-        setPosition(coordinates);
-        alert('Could not find location')
+        setPosition(default_coordinates);
+        alert('Could not find your current location');
       });
     }, [map]);
   
