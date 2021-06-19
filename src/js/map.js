@@ -6,23 +6,14 @@ import { reverseGeocoding, WikiApi } from "./wikiAPI";
 var default_coordinates = [47.66, 9.48];
 
 
-function ClickMarker() {
-    
-    const [wikiResult, setWikiResult] = useState('');
-    const [wikiResultUrl, setWikiResultUrl] = useState('');
-    const [coordinates, setCoordinates] = useState(0);
-    const [position, setPosition] = useState(null);
+function ClickMarker({onClick, position, wikiResult, wikiResultUrl}) {
   
     const map = useMapEvents({
       click(ev) {
-        setPosition(map.mouseEventToLatLng(ev.originalEvent));
-        setCoordinates(map.mouseEventToLatLng(ev.originalEvent));
-        console.log(coordinates.lng + coordinates.lat);
+        onClick(map, ev);
       }
     })
     
-    reverseGeocoding(coordinates.lng, coordinates.lat, setWikiResult, setWikiResultUrl);
-
     return position === null ? null : (
       <Marker position={position} >
         
@@ -59,28 +50,51 @@ function LocationMarker() {
   
 
 const MapObj = () => {
+    const [wikiResult, setWikiResult] = useState('');
+    const [wikiResultUrl, setWikiResultUrl] = useState('');
+    const [coordinates, setCoordinates] = useState(null);
+    const [position, setPosition] = useState(null);
+
+    const onClick = (map, ev) => {
+      console.log(map.mouseEventToLatLng(ev.originalEvent))
+        setPosition(map.mouseEventToLatLng(ev.originalEvent));
+        setCoordinates(map.mouseEventToLatLng(ev.originalEvent));
+        reverseGeocoding(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat, setWikiResult, setWikiResultUrl);
+    }
+
+    const onSearch = (query) => {
+      setPosition({lng: query.result.x, lat: query.result.y})
+      setCoordinates({lng: query.result.x, lat: query.result.y})
+      reverseGeocoding(query.result.x, query.result.y, setWikiResult, setWikiResultUrl);
+    }
 
     return (
         <MapContainer center={default_coordinates} zoom={13} worldCopyJump={true} scrollWheelZoom={true}>
-            <SearchField  />
+            <SearchField onSearch={onSearch} />
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <LocationMarker />
-            <ClickMarker />
-        </MapContainer>
+            <ClickMarker onClick={onClick} position={position} wikiResult={wikiResult} wikiResultUrl={wikiResultUrl} />
+            </MapContainer>
     )
 }
 
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-const SearchField = () => {
+const SearchField = ({onSearch}) => {
   const provider = new OpenStreetMapProvider();
 
   // @ts-ignore
   const searchControl = new GeoSearchControl({
     provider: provider,
-    style: 'button'
+    style: 'button',
+    popupFormat: (query, result) => {
+      console.log(query);
+      //return query.result.label;
+      onSearch(query)
+      return query.result.label;
+    },
   });
 
   const map = useMap();
