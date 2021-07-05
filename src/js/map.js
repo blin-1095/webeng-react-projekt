@@ -50,7 +50,6 @@ function ClickMarker() {
             </div>
           </div>
         </Popup>
-        
       </Marker>
     )
   }
@@ -108,7 +107,7 @@ const MapObj = () => {
                 continuousWorld={false}
             />
             <LocationMarker />
-            <SearchField />
+            <SearchField onSearch={onSearch} />
             <ClickMarker onClick={onClick} position={position} wikiResult={wikiResult} wikiResultUrl={wikiResultUrl} />
         </MapContainer>
     )
