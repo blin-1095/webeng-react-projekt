@@ -1,8 +1,24 @@
 import React, { useEffect, useState } from "react";
+import {
+  Page,
+  Navbar,
+  BlockTitle,
+  Block,
+  Row,
+  Col,
+  Button,
+  Segmented,
+  Sheet,
+  PageContent,
+  Toolbar,
+  Link
+} from 'framework7-react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import { reverseGeocoding, WikiApi } from "./wikiAPI";
-import RoutingMachine from "./routingMachine";
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import parser from "html-react-parser";
+
+var default_coordinates = [47.66, 9.48];
 
 
 const SearchField = ({onSearch}) => {
@@ -18,7 +34,7 @@ const SearchField = ({onSearch}) => {
       onSearch(query)
       return query.result.label;
     },
-  }); 
+  });
 
   const map = useMap();
   useEffect(() => {
@@ -29,31 +45,71 @@ const SearchField = ({onSearch}) => {
   return null;
 }
 
-function ClickMarker() {
-    const [position, setPosition] = useState(null)
+// function createWikiSheet(){
+
+//   return(
+    
+//   )
+// }
+
+
+function ClickMarker({onClick, position, wikiResult, wikiResultText}) {
+  
     const map = useMapEvents({
       click(ev) {
-        setPosition(map.mouseEventToLatLng(ev.originalEvent));
+        onClick(map, ev);
       }
     })
-  
+    
     return position === null ? null : (
       <Marker position={position} >
         
         <Popup>
-          <WikiApi wikiResult = {wikiResult} wikiResultUrl = {wikiResultUrl}/>
-          <div class="block block-strong">
-            <div class="column">
-              <button class="col button button-outline button-round" click={test123()}>Plot route</button>
-              //onclick sheet öffnen
-              <button class="col button button-outline button-round">Wikipedia</button>
-            </div>
-          </div>
+          <WikiApi wikiResult = {wikiResult} wikiResultText = {wikiResultText}/>
+          <BlockTitle large>{wikiResult}</BlockTitle>
+          <Block strong>
+            <Row>
+            <Col tag="span">
+              <Button raised outline round>
+                Plot route
+              </Button>
+            </Col>
+            </Row>
+            <Row>
+            <Col tag="span">
+              <Button raised outline round sheetOpen=".wiki-sheet">
+                Wikipedia
+              </Button>
+            </Col>
+            </Row>
+          </Block>
+
+          <Sheet
+            className="wiki-sheet"
+            style={{ height: 'auto', '--f7-sheet-bg-color': '#fff' }}
+            push
+            >
+            <Toolbar>
+              <div className="left"></div>
+              <div className="right">
+                <Link sheetClose>Close</Link>
+              </div>
+            </Toolbar>
+              <PageContent>
+                <BlockTitle large>{wikiResult}</BlockTitle>
+                <Block>
+                  <div>
+                    {wikiResultText}
+                  </div>
+                </Block>
+              </PageContent>
+          </Sheet>
         </Popup>
+        
       </Marker>
     )
   }
-
+  
 
 function LocationMarker() {
     const [position, setPosition] = useState(null);
@@ -61,17 +117,17 @@ function LocationMarker() {
     const map = useMap();
 
     useEffect(() => {
-        map.locate().on("locationfound", function (e) {
+      map.locate().on("locationfound", function (e) {
         setPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
       }).on("locationerror", function (){
-        setPosition(coordinates);
-        alert('Could not find location')
+        setPosition(default_coordinates);
+        alert('Could not find your current location');
       });
     }, [map]);
   
     return position === null ? null : (
-      <Marker draggable={true} position={position}>
+      <Marker position={position}>
         <Popup>You are here</Popup>
       </Marker>
     )
@@ -80,7 +136,7 @@ function LocationMarker() {
 
 const MapObj = () => {
     const [wikiResult, setWikiResult] = useState('');
-    const [wikiResultUrl, setWikiResultUrl] = useState('');
+    const [wikiResultText, setWikiResultText] = useState('');
     const [coordinates, setCoordinates] = useState(null);
     const [position, setPosition] = useState(null);
 
@@ -88,31 +144,28 @@ const MapObj = () => {
       console.log(map.mouseEventToLatLng(ev.originalEvent))
         setPosition(map.mouseEventToLatLng(ev.originalEvent));
         setCoordinates(map.mouseEventToLatLng(ev.originalEvent));
-        reverseGeocoding(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat, setWikiResult, setWikiResultUrl);
+        reverseGeocoding(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat, setWikiResult, setWikiResultText);
     }
 
     const onSearch = (query) => {
       setPosition({lng: query.result.x, lat: query.result.y})
       setCoordinates({lng: query.result.x, lat: query.result.y})
-      reverseGeocoding(query.result.x, query.result.y, setWikiResult, setWikiResultUrl);
-      
+      reverseGeocoding(query.result.x, query.result.y, setWikiResult, setWikiResultText);
     }
 
-    //add marker +180, -180
     return (
-        <MapContainer center={coordinates} zoom={13} scrollWheelZoom={true} minZoom={3} worldCopyJump={true} maxBoundsViscosity={1.0}>
+        <MapContainer center={default_coordinates} zoom={13} worldCopyJump={true} scrollWheelZoom={true}>
+            <SearchField onSearch={onSearch} />
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 continuousWorld={false}
             />
             <LocationMarker />
-            <SearchField onSearch={onSearch} />
-            <ClickMarker onClick={onClick} position={position} wikiResult={wikiResult} wikiResultUrl={wikiResultUrl} />
-        </MapContainer>
+            <ClickMarker onClick={onClick} position={position} wikiResult={wikiResult} wikiResultText={wikiResultText} />
+            </MapContainer>
     )
 }
-
 
 
 export default MapObj;

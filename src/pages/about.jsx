@@ -1,18 +1,70 @@
 import React from 'react';
-import { Page, Navbar, Block, BlockTitle } from 'framework7-react';
+import { Page, Navbar, Block, BlockTitle, Col, Row } from 'framework7-react';
+import { width } from 'dom7';
+import { testimage } from '/src/images/testimage.png'
+import { alessandra } from '/src/images/alessandra.png'
 
+//TODO add info about the project and the team members (pictures?)
 const AboutPage = () => (
   <Page>
     <Navbar title="About" backLink="Back" />
-    <BlockTitle>About My App</BlockTitle>
+    <BlockTitle>About Map'edia</BlockTitle>
     <Block strong>
-      <p>Fugiat perspiciatis excepturi, soluta quod non ullam deleniti. Nobis sint nemo consequuntur, fugiat. Eius perferendis animi autem incidunt vel quod tenetur nostrum, voluptate omnis quasi quidem illum consequuntur, a, quisquam.</p>
-      <p>Laudantium neque magnam vitae nemo quam commodi, in cum dolore obcaecati laborum, excepturi harum, optio qui, consequuntur? Obcaecati dolor sequi nesciunt culpa quia perspiciatis, reiciendis ex debitis, ut tenetur alias.</p>
+      <p>Map’edia is a Progressive Web Application (PWA) which allows you to learn on the go! On our homepage you can see your location presented in real time. When clicking on the location marker you can learn about the location. This is accomplished by pulling up the information from Wikipedia and displaying it to you, the user.</p>
+      <p>This PWA was completed in part for the DHBW Ravensburg Campus Friedrichshafen’s Web Engineering 2 course with Professor Friedhelm Koch in 2021.</p>
     </Block>
+    <BlockTitle>How the Wiki Works</BlockTitle>
+    <p>Our Map'edia function works with a connection between our map service and a Wikipedia API. To choose what to display to you, our program displays which information is most important to that location (city information, historical ties, etc). As this project was done in Germany, we also chose to display the German Wikipedia site. Therefore, if a location in question is not in the German Wikipedia, it will not be displayed.</p>
+    <BlockTitle>The Map'edia Team</BlockTitle>
     <Block strong>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni molestiae laudantium dignissimos est nobis delectus nemo ea alias voluptatum architecto, amet similique, saepe iste consectetur in repellat ut minus quibusdam!</p>
-      <p>Molestias et distinctio porro nesciunt ratione similique, magni doloribus, rerum nobis, aliquam quae reiciendis quasi modi. Nam a recusandae, fugiat in ea voluptates fuga eius, velit corrupti reprehenderit dignissimos consequatur!</p>
-      <p>Blanditiis, cumque quo adipisci. Molestiae, dolores dolorum quos doloremque ipsa ullam eligendi commodi deserunt doloribus inventore magni? Ea mollitia veniam nostrum nihil, iusto doloribus a at! Ea molestiae ullam delectus!</p>
+      <Row>
+        <Col>
+          <div class="card">
+            <div class="card-header">Scrum Co-Master</div>
+            <div class="card-content">
+              <img src={"images/alessandra.png"} width="100%" class="lazy lazy-fadeIn"></img>
+            </div>
+            <div class="card-footer">Alessandra Woods</div>
+          </div>
+        </Col>
+        <Col>
+          <div class="card">
+            <div class="card-header">Scrum Co-Master</div>
+            <div class="card-content">
+              <img src={"images/testimage.png"} width="100%" class="lazy lazy-fadeIn"></img>
+            </div>
+            <div class="card-footer">Daniel Zelesnov</div>
+          </div>
+        </Col>
+        <Col>
+          <div class="card">
+            <div class="card-header">Navigation</div>
+            <div class="card-content">
+              <img src={"images/testimage.png"} width="100%" class="lazy lazy-fadeIn"></img>
+            </div>
+            <div class="card-footer">Lukas Zwaller</div>
+          </div>
+        </Col>
+        <Col>
+          <div class="card">
+            <div class="card-header">Navigation</div>
+            <div class="card-content">
+              <img src={"images/testimage.png"} width="100%" class="lazy lazy-fadeIn"></img>
+            </div>
+            <div class="card-footer">Benedikt Doerflein</div>
+          </div>
+        </Col>
+        <Col>
+          <div class="card">
+            <div class="card-header">Wiki-Expert</div>
+            <div class="card-content">
+              <img src={"images/testimage.png"} width="100%" class="lazy lazy-fadeIn"></img>
+            </div>
+            <div class="card-footer">Pascal Wildermuth</div>
+          </div>
+        </Col>
+
+      </Row>
     </Block>
   </Page>
 );
