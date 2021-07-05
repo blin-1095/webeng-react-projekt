@@ -18,7 +18,7 @@ const SearchField = ({onSearch}) => {
       onSearch(query)
       return query.result.label;
     },
-  });
+  }); 
 
   const map = useMap();
   useEffect(() => {
@@ -108,6 +108,7 @@ const MapObj = () => {
                 continuousWorld={false}
             />
             <LocationMarker />
+            <SearchField />
             <ClickMarker onClick={onClick} position={position} wikiResult={wikiResult} wikiResultUrl={wikiResultUrl} />
         </MapContainer>
     )
