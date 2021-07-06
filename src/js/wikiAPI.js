@@ -1,15 +1,3 @@
-import React, { useState } from 'react';
-
-
-export const WikiApi = ({wikiResult, wikiResultUrl}) => {
-    return(
-        <div >
-            <a href={wikiResultUrl}>{wikiResult}</a>
-        </div>
-    )
-}
-
-
 export async function reverseGeocoding(lon, lat, setWikiResult, setWikiResultText) {
     
     const query_url = 'https://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat;

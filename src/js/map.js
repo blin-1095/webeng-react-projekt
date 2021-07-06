@@ -65,7 +65,6 @@ function ClickMarker({onClick, position, wikiResult, wikiResultText}) {
       <Marker position={position} >
         
         <Popup>
-          <WikiApi wikiResult = {wikiResult} wikiResultText = {wikiResultText}/>
           <BlockTitle large>{wikiResult}</BlockTitle>
           <Block strong>
             <Row>
@@ -154,7 +153,7 @@ const MapObj = () => {
     }
 
     return (
-        <MapContainer center={default_coordinates} zoom={13} worldCopyJump={true} scrollWheelZoom={true}>
+        <MapContainer center={default_coordinates} zoom={13} minZoom={3} maxBounds={[[-80,-170], [100,190]]} scrollWheelZoom={true} maxBoundsViscosity={1}>
             <SearchField onSearch={onSearch} />
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
