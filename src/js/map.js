@@ -54,7 +54,7 @@ const SearchField = ({onSearch}) => {
 // }
 
 
-function ClickMarker({onClick, position, wikiResult, wikiResultText}) {
+function ClickMarker({onClick, ownPosition, position, wikiResult, wikiResultText, routingVisability, setRoutingVisability}) {
   
     const map = useMapEvents({
       click(ev) {
@@ -70,7 +70,7 @@ function ClickMarker({onClick, position, wikiResult, wikiResultText}) {
           <Block strong>
             <Row>
             <Col tag="span">
-              <Button raised outline round>
+              <Button raised outline round onClick={() => setRoutingVisability(!routingVisability)}>
                 Plot route
               </Button>
             </Col>
@@ -111,23 +111,22 @@ function ClickMarker({onClick, position, wikiResult, wikiResultText}) {
   }
   
 
-function LocationMarker() {
-    const [position, setPosition] = useState(null);
+function LocationMarker({ownPosition, setOwnPosition}) {
 
     const map = useMap();
 
     useEffect(() => {
       map.locate().on("locationfound", function (e) {
-        setPosition(e.latlng);
+        setOwnPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
       }).on("locationerror", function (){
-        setPosition(default_coordinates);
+        setOwnPosition(default_coordinates);
         alert('Could not find your current location');
       });
     }, [map]);
   
-    return position === null ? null : (
-      <Marker position={position}>
+    return ownPosition === null ? null : (
+      <Marker position={ownPosition}>
         <Popup>You are here</Popup>
       </Marker>
     )
@@ -139,6 +138,8 @@ const MapObj = () => {
     const [wikiResultText, setWikiResultText] = useState('');
     const [coordinates, setCoordinates] = useState(null);
     const [position, setPosition] = useState(null);
+    const [ownPosition, setOwnPosition] = useState(null);
+    const [routingVisability, setRoutingVisability] = useState(false);
 
     const onClick = (map, ev) => {
       console.log(map.mouseEventToLatLng(ev.originalEvent))
@@ -161,8 +162,9 @@ const MapObj = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 continuousWorld={false}
             />
-            <LocationMarker />
-            <ClickMarker onClick={onClick} position={position} wikiResult={wikiResult} wikiResultText={wikiResultText} />
+            <LocationMarker ownPosition={ownPosition} setOwnPosition={setOwnPosition}/>
+            <ClickMarker onClick={onClick} ownPosition={ownPosition} position={position} wikiResult={wikiResult} wikiResultText={wikiResultText} routingVisability={routingVisability} setRoutingVisability={setRoutingVisability}/>
+            {routingVisability ? <RoutingMachine ownPosition={ownPosition} position={position}	/> : <div></div>}
           </MapContainer>
     )
 }
