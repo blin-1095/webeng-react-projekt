@@ -24,7 +24,6 @@ export async function reverseGeocoding(lon, lat, setWikiResult, setWikiResultTex
             const wiki_page_response = await fetch(urlPageId);
             const wiki_page = await wiki_page_response.json();
 
-            console.log(wiki_page.parse);
             setWikiResult(wiki_json.query.search[0].title);
             setWikiResultText(wiki_page.query.pages[pageId].extract);
 

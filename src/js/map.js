@@ -16,7 +16,8 @@ import {
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import { reverseGeocoding, WikiApi } from "./wikiAPI";
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import parser from "html-react-parser";
+import RoutingMachine from "./routingMachine";
+//import parser from "html-react-parser";
 
 var default_coordinates = [47.66, 9.48];
 
@@ -162,7 +163,7 @@ const MapObj = () => {
             />
             <LocationMarker />
             <ClickMarker onClick={onClick} position={position} wikiResult={wikiResult} wikiResultText={wikiResultText} />
-            </MapContainer>
+          </MapContainer>
     )
 }
 
