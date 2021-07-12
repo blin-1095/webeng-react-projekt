@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Page,
   Navbar,
@@ -46,15 +46,21 @@ const SearchField = ({onSearch}) => {
   return null;
 }
 
-// function createWikiSheet(){
 
-//   return(
-    
-//   )
-// }
+function plotRoute(ownPosition, position){
+  const rMachine = useRef();
 
+  const pointsToUse = [position, ownPosition];
 
-function ClickMarker({onClick, ownPosition, position, wikiResult, wikiResultText, routingVisability, setRoutingVisability}) {
+  useEffect(() => {
+    if (rMachine.current) {
+      console.log(rMachine.current);
+      rMachine.current.setWaypoints(pointsToUse);
+    }
+  }, [pointsToUse, rMachine]);
+}
+
+function ClickMarker({onClick, ownPosition, position, wikiResult, wikiResultText}) {
   
     const map = useMapEvents({
       click(ev) {
@@ -70,7 +76,7 @@ function ClickMarker({onClick, ownPosition, position, wikiResult, wikiResultText
           <Block strong>
             <Row>
             <Col tag="span">
-              <Button raised outline round onClick={() => setRoutingVisability(!routingVisability)}>
+              <Button raised outline round onClick={plotRoute(ownPosition, position)}>
                 Plot route
               </Button>
             </Col>
@@ -163,8 +169,8 @@ const MapObj = () => {
                 continuousWorld={false}
             />
             <LocationMarker ownPosition={ownPosition} setOwnPosition={setOwnPosition}/>
-            <ClickMarker onClick={onClick} ownPosition={ownPosition} position={position} wikiResult={wikiResult} wikiResultText={wikiResultText} routingVisability={routingVisability} setRoutingVisability={setRoutingVisability}/>
-            {routingVisability ? <RoutingMachine ownPosition={ownPosition} position={position}	/> : <div></div>}
+            <ClickMarker onClick={onClick} ownPosition={ownPosition} position={position} wikiResult={wikiResult} wikiResultText={wikiResultText}/>
+            <RoutingMachine ownPosition={ownPosition} position={position}></RoutingMachine>
           </MapContainer>
     )
 }
