@@ -3,6 +3,7 @@
 # Set-Up:
 
 - install npm
+- install framework7
 - npm install leaflet-react
 - install ...
 - npm install --save leaflet-geosearch
