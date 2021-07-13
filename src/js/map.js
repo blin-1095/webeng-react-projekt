@@ -142,6 +142,7 @@ const MapObj = () => {
     const [ownPosition, setOwnPosition] = useState(null);
     const [routingVisibility, setRoutingVisibility] = useState(false);
 
+    //zusammenfassen zu getLocationInfo damit Suche und Click gleich funktionieren
     const onClick = (map, ev) => {
       console.log(map.mouseEventToLatLng(ev.originalEvent))
         setPosition(map.mouseEventToLatLng(ev.originalEvent));
