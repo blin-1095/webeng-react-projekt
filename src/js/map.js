@@ -1,26 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
-  Page,
-  Navbar,
   BlockTitle,
   Block,
   Row,
   Col,
   Button,
-  Segmented,
   Sheet,
   PageContent,
   Toolbar,
   Link
 } from 'framework7-react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
-import { reverseGeocoding, WikiApi } from "./wikiAPI";
+import { reverseGeocoding } from "./wikiAPI";
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import RoutingMachine from "./routingMachine";
-//import parser from "html-react-parser";
+import { marker } from "leaflet";
 
-var default_coordinates = [47.66, 9.48];
-
+const default_coordinates = [47.66, 9.48];
 
 const SearchField = ({onSearch}) => {
   const provider = new OpenStreetMapProvider();
@@ -47,20 +43,7 @@ const SearchField = ({onSearch}) => {
 }
 
 
-function plotRoute(ownPosition, position){
-  const rMachine = useRef();
-
-  const pointsToUse = [position, ownPosition];
-
-  useEffect(() => {
-    if (rMachine.current) {
-      console.log(rMachine.current);
-      rMachine.current.setWaypoints(pointsToUse);
-    }
-  }, [pointsToUse, rMachine]);
-}
-
-function ClickMarker({onClick, ownPosition, position, wikiResult, wikiResultText}) {
+function ClickMarker({onClick, position, wikiResult, wikiResultText, setRoutingVisibility, routingVisibility}) {
   
     const map = useMapEvents({
       click(ev) {
@@ -69,15 +52,14 @@ function ClickMarker({onClick, ownPosition, position, wikiResult, wikiResultText
     })
     
     return position === null ? null : (
-      <Marker position={position} >
-        
+      <Marker position={position}>  
         <Popup>
           <BlockTitle large>{wikiResult}</BlockTitle>
           <Block strong>
             <Row>
             <Col tag="span">
-              <Button raised outline round onClick={plotRoute(ownPosition, position)}>
-                Plot route
+              <Button raised outline round onClick={() => setRoutingVisibility(!routingVisibility)}>
+                {routingVisibility ? "Remove Route" : "Plot Route"}
               </Button>
             </Col>
             </Row>
@@ -120,6 +102,7 @@ function ClickMarker({onClick, ownPosition, position, wikiResult, wikiResultText
 function LocationMarker({ownPosition, setOwnPosition}) {
 
     const map = useMap();
+    const markerRef = useRef(null);
 
     useEffect(() => {
       map.locate().on("locationfound", function (e) {
@@ -131,27 +114,40 @@ function LocationMarker({ownPosition, setOwnPosition}) {
       });
     }, [map]);
   
+    const eventHandlers = useMemo(() => ({
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          setOwnPosition(marker.getLatLng())
+        }
+      },
+    }),
+    [],
+  )
+
     return ownPosition === null ? null : (
-      <Marker position={ownPosition}>
-        <Popup>You are here</Popup>
+      <Marker draggable={true} position={ownPosition} eventHandlers={eventHandlers} ref={markerRef}>
+        <Popup>You are here<br/>(Drag me if I'm wrong)</Popup>
       </Marker>
     )
   }
   
 
 const MapObj = () => {
+
     const [wikiResult, setWikiResult] = useState('');
     const [wikiResultText, setWikiResultText] = useState('');
     const [coordinates, setCoordinates] = useState(null);
     const [position, setPosition] = useState(null);
     const [ownPosition, setOwnPosition] = useState(null);
-    const [routingVisability, setRoutingVisability] = useState(false);
+    const [routingVisibility, setRoutingVisibility] = useState(false);
 
     const onClick = (map, ev) => {
       console.log(map.mouseEventToLatLng(ev.originalEvent))
         setPosition(map.mouseEventToLatLng(ev.originalEvent));
         setCoordinates(map.mouseEventToLatLng(ev.originalEvent));
         reverseGeocoding(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat, setWikiResult, setWikiResultText);
+        setRoutingVisibility(false);
     }
 
     const onSearch = (query) => {
@@ -159,6 +155,19 @@ const MapObj = () => {
       setCoordinates({lng: query.result.x, lat: query.result.y})
       reverseGeocoding(query.result.x, query.result.y, setWikiResult, setWikiResultText);
     }
+    
+    const rMachine = useRef();
+    // create some state variable, any state variable, to track changes
+    const pointsToUse = [position, ownPosition];
+
+    // useEffect which responds to changes in waypoints state variable
+    useEffect(() => {
+      if (rMachine.current && routingVisibility === true) {
+        rMachine.current.setWaypoints(pointsToUse);
+      }else if(rMachine.current && routingVisibility === false){
+        rMachine.current.setWaypoints(false);
+      }
+    }, [pointsToUse, rMachine]);
 
     return (
         <MapContainer center={default_coordinates} zoom={13} minZoom={3} maxBounds={[[-80,-170], [100,190]]} scrollWheelZoom={true} maxBoundsViscosity={1}>
@@ -169,8 +178,9 @@ const MapObj = () => {
                 continuousWorld={false}
             />
             <LocationMarker ownPosition={ownPosition} setOwnPosition={setOwnPosition}/>
-            <ClickMarker onClick={onClick} ownPosition={ownPosition} position={position} wikiResult={wikiResult} wikiResultText={wikiResultText}/>
-            <RoutingMachine ownPosition={ownPosition} position={position}></RoutingMachine>
+            <ClickMarker onClick={onClick} ownPosition={ownPosition} position={position} wikiResult={wikiResult} 
+            wikiResultText={wikiResultText} setRoutingVisibility={setRoutingVisibility} routingVisibility={routingVisibility}/>
+            <RoutingMachine ref={rMachine} waypoints={pointsToUse}/>
           </MapContainer>
     )
 }
