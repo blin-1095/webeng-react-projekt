@@ -14,13 +14,15 @@ const createRoutingMachineLayer = (props) => {
     routeWhileDragging: false,
     draggableWaypoints: false,
     fitSelectedRoutes: false,
-    showAlternatives: false
+    showAlternatives: false,
+    router: new L.Routing.osrmv1({
+      language: 'de',
+      profile: 'car'
+    }),
   });
 
   return instance;
 };
-
-//const RoutingMachine = createControlComponent(createRoutingMachineLayer);
 
 const RoutingMachine = createControlComponent(createRoutingMachineLayer);
 
