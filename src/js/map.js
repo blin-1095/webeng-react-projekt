@@ -59,7 +59,6 @@ function SecondMarker({onSearch, onClick, position, wikiResult, wikiResultText, 
     }
   })
 
-
   useEffect(() => {
     map.addControl(searchControl);
     map.on('geosearch/showlocation', (ev) => {
@@ -91,7 +90,7 @@ function SecondMarker({onSearch, onClick, position, wikiResult, wikiResultText, 
 
         <Sheet
           className="wiki-sheet"
-          style={{ height: 'auto', '--f7-sheet-bg-color': '#fff', 'overflow': 'visible' }}
+          style={{ height: 'auto', '--f7-sheet-bg-color': '#fff' }}
           push
           >
           <Toolbar>
@@ -104,8 +103,7 @@ function SecondMarker({onSearch, onClick, position, wikiResult, wikiResultText, 
               <BlockTitle large>{wikiResult}</BlockTitle>
               <Block>
                 <div>
-                  {'Nicht fertig'}
-                  {wikiResultText.length > 500 ? wikiResultText.substring(0, 500) : wikiResultText }
+                  {wikiResultText.length > 500 ? wikiResultText.substring(0, 800) + '[...]' : wikiResultText }
                 </div>
               </Block>
             </PageContent>

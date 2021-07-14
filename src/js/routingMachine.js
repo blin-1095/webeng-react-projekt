@@ -3,6 +3,7 @@ import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 
 const createRoutingMachineLayer = (props) => {
+
   const { waypoints } = props;
   const instance = L.Routing.control({
     waypoints,
@@ -15,6 +16,7 @@ const createRoutingMachineLayer = (props) => {
     draggableWaypoints: false,
     fitSelectedRoutes: false,
     showAlternatives: false,
+    collapsible: true,
     router: new L.Routing.osrmv1({
       language: 'de',
       profile: 'car'
