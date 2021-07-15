@@ -12,15 +12,18 @@ const createRoutingMachineLayer = (props) => {
     },
     show: false,
     addWaypoints: false,
-    routeWhileDragging: false,
+    routeWhileDragging: true,
     draggableWaypoints: false,
-    fitSelectedRoutes: false,
+    fitSelectedRoutes: true,
     showAlternatives: false,
     collapsible: true,
     router: new L.Routing.osrmv1({
       language: 'de',
       profile: 'car'
     }),
+    plan: new L.Routing.plan(waypoints, {
+      createMarker: () =>  { return null; }
+    })
   });
 
   return instance;

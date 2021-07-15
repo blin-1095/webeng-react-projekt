@@ -1,32 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import {
   f7,
   f7ready,
   App,
   Panel,
-  Views,
   View,
-  Popup,
   Page,
   Navbar,
-  Toolbar,
-  NavRight,
-  Link,
   Block,
-  BlockTitle,
-  LoginScreen,
-  LoginScreenTitle,
-  List,
-  ListItem,
-  ListInput,
-  ListButton,
-  BlockFooter
+
 } from 'framework7-react';
 
 
 import routes from '../js/routes';
-import store from '../js/store';
 
 const MyApp = () => {
   // Login screen demo data
@@ -37,8 +24,6 @@ const MyApp = () => {
     name: 'Map\'edia', // App name
     theme: 'auto', // Automatic theme detection
 
-    // App store
-    store: store,
     // App routes
     routes: routes,
     

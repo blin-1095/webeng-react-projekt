@@ -5,17 +5,8 @@ import {
   Navbar,
   NavLeft,
   NavTitle,
-  NavTitleLarge,
-  NavRight,
   Link,
   Toolbar,
-  Block,
-  BlockTitle,
-  List,
-  ListItem,
-  Row,
-  Col,
-  Button
 } from 'framework7-react';
 import logo1 from '/src/images/logo1.png'
 import mapedia from '/src/images/Mapedia.svg'
@@ -38,16 +29,8 @@ const HomePage = () => (
       {/*<Link href="/form/">Form</Link> */}
     </Toolbar>
     {/* Page content */}
-
-
     <MapObj />
-
 
   </Page>
 );
 export default HomePage;
-
-/*<List>
-      <ListItem link="/about/" title="About"/>
-      <ListItem link="/form/" title="Form"/>
-    </List>*/

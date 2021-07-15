@@ -17,30 +17,6 @@ import RoutingMachine from "./routingMachine";
 
 const default_coordinates = [47.66, 9.48];
 
-// const SearchField = ({onSearch}) => {
-//   const provider = new OpenStreetMapProvider();
-
-//   // @ts-ignore
-//   const searchControl = new GeoSearchControl({
-//     provider: provider,
-//     style: 'button',
-//     popupFormat: (query, result) => {
-//       console.log(query);
-//       //return query.result.label;
-//       onSearch(query)
-//       return query.result.label;
-//     },
-//   });
-
-//   const map = useMap();
-//   useEffect(() => {
-//     map.addControl(searchControl);
-//     return () => map.removeControl(searchControl);
-//   }, [])
-
-//   return null;
-// }
-
 
 function SecondMarker({onSearch, onClick, position, wikiResult, wikiResultText, setRoutingVisibility, routingVisibility}) {
   
@@ -139,7 +115,7 @@ function LocationMarker({ownPosition, setOwnPosition}) {
       },
     }),
     [],
-  )
+    )
 
     return ownPosition === null ? null : (
       <Marker draggable={true} position={ownPosition} eventHandlers={eventHandlers} ref={markerRef}>
@@ -162,11 +138,10 @@ const MapObj = () => {
       setPosition(map.mouseEventToLatLng(ev.originalEvent));
       reverseGeocoding(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat, setWikiResult, setWikiResultText);
       //nicht fertig
-      setRoutingVisibility(false);
+      //setRoutingVisibility(false);
     }
 
     const onSearch = (query) => {
-      console.log(query.location)
       setPosition({lng: query.location.x, lat: query.location.y});
       reverseGeocoding(query.location.x, query.location.y, setWikiResult, setWikiResultText);
     }
