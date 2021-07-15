@@ -7,6 +7,7 @@ import FormPage from '../pages/form.jsx';
 import DynamicRoutePage from '../pages/dynamic-route.jsx';
 import RequestAndLoad from '../pages/request-and-load.jsx';
 import NotFoundPage from '../pages/404.jsx';
+import serviceWorker from 'framework7/esm/modules/service-worker/service-worker';
 
 var routes = [
   {
@@ -21,7 +22,9 @@ var routes = [
     path: '/form/',
     component: FormPage,
   },
-
+  { path: "/service-worker", 
+    url: "./js/customer-service-worker.js" 
+  }, 
 
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',

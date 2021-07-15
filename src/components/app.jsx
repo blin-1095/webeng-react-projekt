@@ -44,8 +44,9 @@ const MyApp = () => {
     routes: routes,
 
     //service worker attempt AW
+    ///Users/alex/repos/webeng-react-projekt/src/js/custom-service-worker.js
     serviceWorker: {
-      path: './custom-service-worker.js',
+      path: 'service-worker',
       scope: '/',
     }
   };

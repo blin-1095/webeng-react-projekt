@@ -20,6 +20,7 @@ import App from '../components/app.jsx';
 
 import * as serviceWorker from './serviceWorkerRegistration';
 
+
 // Init F7 React Plugin
 Framework7.use(Framework7React)
 
@@ -29,4 +30,4 @@ ReactDOM.render(
   document.getElementById('app'),
 );
 
-serviceWorker.register();
+serviceWorker.register("custom-service-worker.js");
