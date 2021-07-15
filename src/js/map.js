@@ -56,7 +56,7 @@ function DestinationMarker({getLocationInfo, position, wikiResult, wikiResultTex
   return position === null ? null : (
     <Marker position={position}>  
       <Popup>
-        <BlockTitle large>{wikiResult}</BlockTitle>
+        <BlockTitle medium>{wikiResult}</BlockTitle>
         <Block strong>
           <Row>
           <Col tag="span">
@@ -86,7 +86,7 @@ function DestinationMarker({getLocationInfo, position, wikiResult, wikiResultTex
             </div>
           </Toolbar>
             <PageContent>
-              <BlockTitle large>{wikiResult}</BlockTitle>
+              <BlockTitle medium>{wikiResult}</BlockTitle>
               <Block>
                 <div>
                   {wikiResultText.length > 500 ? wikiResultText.substring(0, 800) + '[...]' : wikiResultText }
