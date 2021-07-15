@@ -60,14 +60,14 @@ function DestinationMarker({getLocationInfo, position, wikiResult, wikiResultTex
         <Block strong>
           <Row>
           <Col tag="span">
-            <Button raised outline round onClick={() => setRoutingVisibility(!routingVisibility)}>
+            <Button style={{margin: '2px'}} raised outline round onClick={() => setRoutingVisibility(!routingVisibility)}>
               {routingVisibility ? "Remove Route" : "Plot Route"}
             </Button>
           </Col>
           </Row>
           <Row>
           <Col tag="span">
-            <Button raised outline round sheetOpen=".wiki-sheet">
+            <Button style={{margin: '2px'}} raised outline round sheetOpen=".wiki-sheet">
               Wikipedia
             </Button>
           </Col>
