@@ -4,9 +4,11 @@
 # Set-Up:
 
 - install npm
+  install react
 - install framework7
-- npm install leaflet-react
-- install ...
+- npm install leaflet
+  npm install react-leaflet
+  npm install leaflet-routing-machine
 - npm install --save leaflet-geosearch
 
 # Start
