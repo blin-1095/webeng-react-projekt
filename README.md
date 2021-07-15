@@ -1,11 +1,14 @@
-# Map'edia
-
+<p align="center">
+<img src="./src/static/icons/Mapedia.png" alt="Logo" width="400" align="center">
+  
 # Set-Up:
 
 - install npm
+- install react
 - install framework7
-- npm install leaflet-react
-- install ...
+- npm install leaflet
+- npm install react-leaflet
+- npm install leaflet-routing-machine
 - npm install --save leaflet-geosearch
 
 # Start
