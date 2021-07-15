@@ -23,6 +23,10 @@ const MyApp = () => {
   const f7params = {
     name: 'Map\'edia', // App name
     theme: 'auto', // Automatic theme detection
+    serviceWorker: {
+      path: '../service-worker.js',
+      scope: '/',
+    },
 
     // App routes
     routes: routes,
@@ -37,16 +41,6 @@ const MyApp = () => {
 
   return (
     <App {...f7params} >
-
-      {/* Left panel with cover effect*/}
-      <Panel left cover themeDark>
-        <View>
-          <Page>
-            <Navbar title="Left Panel" />
-            <Block>Left panel content goes here</Block>
-          </Page>
-        </View>
-      </Panel>
 
       {/* Your main view, should have "view-main" class */}
       <View main className="safe-areas" url="/" />
