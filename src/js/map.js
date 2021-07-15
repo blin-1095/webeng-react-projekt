@@ -24,7 +24,7 @@ import { marker } from "leaflet";
 
 const default_coordinates = [47.66, 9.48];
 
-// Create Searchfield to search places
+// Create Searchfield to search locations
 const SearchField = ({ onSearch }) => {
   const provider = new OpenStreetMapProvider();
 
@@ -139,7 +139,7 @@ function LocationMarker({ ownPosition, setOwnPosition }) {
   )
 }
 
-
+// Create map object
 const MapObj = () => {
 
   const [wikiResult, setWikiResult] = useState('');
