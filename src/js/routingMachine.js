@@ -2,6 +2,11 @@ import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 
+/**
+ * Calculates route between given coordinates
+ * @param {*} props Coordinates of the starting and ending points of the route
+ * @returns {L.Routing.Control} instance of the routing machine
+ */
 const createRoutingMachineLayer = (props) => {
 
   const { waypoints } = props;

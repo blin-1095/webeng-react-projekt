@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef, useMemo, Component } from "react";
 import {
   BlockTitle,
   Block,
@@ -15,30 +15,40 @@ import { reverseGeocoding } from "./wikiapi";
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import RoutingMachine from "./routingmachine";
 
+//coordinates used if location cant be determined
 const default_coordinates = [47.66, 9.48];
 
-
-function SecondMarker({onSearch, onClick, position, wikiResult, wikiResultText, setRoutingVisibility, routingVisibility}) {
+/**
+ * DestinationMarker Component, builds and places second marker with interactive popup
+ * @param {*} getLocationInfo 
+ * @param {*} position coordinates
+ * @param {String} wikiResult title of WikiApi result
+ * @param {String} wikiResultText text of WikiApi result
+ * @param {boolean} setRoutingVisibility changes visibility of route
+ * @param {boolean} routingVisibility check visibility of route
+ * @returns {JSX.Element} marker with interactive popup
+ */
+function DestinationMarker({getLocationInfo, position, wikiResult, wikiResultText, setRoutingVisibility, routingVisibility}) {
   
   const provider = new OpenStreetMapProvider();
 
-  // @ts-ignore
+  //settings of searchbar
   const searchControl = new GeoSearchControl({
     provider: provider,
     style: 'button',
     autoClose: true,
   });
-
+  //clickevent
   const map = useMapEvents({
     click(ev) {
-      onClick(map, ev);
+      getLocationInfo(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat);
     }
   })
-
+  //searchbarevent
   useEffect(() => {
     map.addControl(searchControl);
     map.on('geosearch/showlocation', (ev) => {
-      onSearch(ev);
+      getLocationInfo(ev.location.x, ev.location.y);
     })
     return () => map.removeControl(searchControl);
   }, [])
@@ -90,12 +100,18 @@ function SecondMarker({onSearch, onClick, position, wikiResult, wikiResultText, 
   )
 }
 
-
+/**
+ * Sets user location marker
+ * @param {*} ownPosition user location coordinates
+ * @param {*} setOwnPosition set user location coordinates
+ * @returns {JSX.Element} user location marker with popup
+ */
 function LocationMarker({ownPosition, setOwnPosition}) {
 
     const map = useMap();
     const markerRef = useRef(null);
 
+    //check, if user can be located (true: save position / false: alert)
     useEffect(() => {
       map.locate().on("locationfound", function (e) {
         setOwnPosition(e.latlng);
@@ -105,7 +121,8 @@ function LocationMarker({ownPosition, setOwnPosition}) {
         alert('Could not find your current location');
       });
     }, [map]);
-  
+
+    //updates marker position, if dragged
     const eventHandlers = useMemo(() => ({
       dragend() {
         const marker = markerRef.current;
@@ -124,7 +141,10 @@ function LocationMarker({ownPosition, setOwnPosition}) {
     )
   }
   
-
+/**
+ * Combines leaflet map with marker and routing Components
+ * @returns {JSX.Element} map Component
+ */
 const MapObj = () => {
 
     const [wikiResult, setWikiResult] = useState('');
@@ -133,22 +153,16 @@ const MapObj = () => {
     const [ownPosition, setOwnPosition] = useState(null);
     const [routingVisibility, setRoutingVisibility] = useState(false);
 
-    //zusammenfassen zu getLocationInfo damit Suche und Click gleich funktionieren
-    const onClick = (map, ev) => {
-      setPosition(map.mouseEventToLatLng(ev.originalEvent));
-      reverseGeocoding(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat, setWikiResult, setWikiResultText);
-      //nicht fertig
-      //setRoutingVisibility(false);
-    }
-
-    const onSearch = (query) => {
-      setPosition({lng: query.location.x, lat: query.location.y});
-      reverseGeocoding(query.location.x, query.location.y, setWikiResult, setWikiResultText);
+    //Set position and uses WikiApi
+    const getLocationInfo = (lng, lat) => {
+      setPosition({lng: lng, lat: lat});
+      reverseGeocoding(lng, lat, setWikiResult, setWikiResultText);
     }
     
     const rMachine = useRef();
     const pointsToUse = [position, ownPosition];
-
+    
+    //checks for routingVisibility (true: enable routing / false: disable routing)
     useEffect(() => {
       if (rMachine.current && routingVisibility === true) {
         rMachine.current.setWaypoints(pointsToUse);
@@ -166,7 +180,7 @@ const MapObj = () => {
                 continuousWorld={false}
             />
             <LocationMarker ownPosition={ownPosition} setOwnPosition={setOwnPosition}/>
-            <SecondMarker onSearch={onSearch} onClick={onClick} ownPosition={ownPosition} position={position} wikiResult={wikiResult} 
+            <DestinationMarker getLocationInfo={getLocationInfo} ownPosition={ownPosition} position={position} wikiResult={wikiResult} 
             wikiResultText={wikiResultText} setRoutingVisibility={setRoutingVisibility} routingVisibility={routingVisibility}/>
             <RoutingMachine ref={rMachine} waypoints={pointsToUse}/>
           </MapContainer>
