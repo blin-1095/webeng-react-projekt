@@ -11,9 +11,9 @@ import {
   Link
 } from 'framework7-react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
-import { reverseGeocoding } from "./wikiAPI";
+import { reverseGeocoding } from "./wikiapi";
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import RoutingMachine from "./routingMachine";
+import RoutingMachine from "./routingmachine";
 
 const default_coordinates = [47.66, 9.48];
 
