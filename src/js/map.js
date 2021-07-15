@@ -56,7 +56,7 @@ function DestinationMarker({getLocationInfo, position, wikiResult, wikiResultTex
   return position === null ? null : (
     <Marker position={position}>  
       <Popup>
-        <BlockTitle medium>{wikiResult}</BlockTitle>
+        <BlockTitle style={{textAlign: 'center'}} medium>{wikiResult}</BlockTitle>
         <Block strong>
           <Row>
           <Col tag="span">
