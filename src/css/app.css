@@ -24,6 +24,11 @@
   width: 20%;
 }
 
+.card{
+  max-width: 250px;
+
+}
+
 .bg-color-primary {
   --f7-theme-color-bg-color: var(--f7-theme-color-bg)
 }

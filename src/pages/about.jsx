@@ -3,6 +3,7 @@ import { Page, Navbar, Block, BlockTitle, Col, Row } from 'framework7-react';
 import { width } from 'dom7';
 import { testimage } from '/src/images/testimage.png'
 import { alessandra } from '/src/images/alessandra.png'
+import { pascal } from '/src/images/pascal.png'
 
 //TODO add info about the project and the team members (pictures?)
 const AboutPage = () => (
@@ -64,7 +65,7 @@ const AboutPage = () => (
           <div class="card">
             <div class="card-header">Wiki-Expert</div>
             <div class="card-content">
-              <img src={"images/testimage.png"} width="50%" class="lazy lazy-fadeIn"></img>
+              <img src={"images/pascal.png"} width="100%" class="lazy lazy-fadeIn"></img>
             </div>
             <div class="card-footer">Pascal Wildermuth</div>
           </div>
