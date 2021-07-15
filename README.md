@@ -1,5 +1,5 @@
 # Map'edia
-
+<img src="/static/icons/Mapedia.png" alt="Logo" width="150" height="150">
 # Set-Up:
 
 - install npm
