@@ -2,6 +2,7 @@ import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 
+// Function to create the layer for the routing machine
 const createRoutingMachineLayer = (props) => {
   const { waypoints } = props;
   const instance = L.Routing.control({
