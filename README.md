@@ -20,13 +20,14 @@ Framework7 app created with following options:
 
 ```
 {
-  "cwd": "/Users/Alex/repos/webeng-react-projekt",
+  "cwd": "C:\\Users\\danie\\Documents\\fw7_pwa",
   "type": [
+    "pwa",
     "web"
   ],
   "name": "Map'edia",
   "framework": "react",
-  "template": "single-view",
+  "template": "blank",
   "cssPreProcessor": false,
   "bundler": "webpack",
   "webpack": {
@@ -37,10 +38,10 @@ Framework7 app created with following options:
     "inlineAssets": true
   },
   "theming": {
-    "customColor": true,
-    "color": "#7ED957",
+    "customColor": false,
+    "color": "#007aff",
     "darkTheme": false,
-    "iconFonts": true,
+    "iconFonts": false,
     "fillBars": false
   },
   "customBuild": false
@@ -58,6 +59,10 @@ Framework7 app created with following options:
 There is a webpack bundler setup. It compiles and bundles all "front-end" resources. You should work only with files located in `/src` folder. Webpack config located in `build/webpack.config.js`.
 
 Webpack has specific way of handling static assets (CSS files, images, audios). You can learn more about correct way of doing things on [official webpack documentation](https://webpack.js.org/guides/asset-management/).
+
+## PWA
+
+This is a PWA. Don't forget to check what is inside of your `service-worker.js`. It is also recommended that you disable service worker (or enable "Update on reload") in browser dev tools during development.
 ## Assets
 
 Assets (icons, splash screens) source images located in `assets-src` folder. To generate your own icons and splash screen images, you will need to replace all assets in this directory with your own images (pay attention to image size and format), and run the following command in the project directory:
