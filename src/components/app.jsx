@@ -23,14 +23,14 @@ const MyApp = () => {
   const f7params = {
     name: 'Map\'edia', // App name
     theme: 'auto', // Automatic theme detection
-    serviceWorker: {
+    /*serviceWorker: {
       path: '../service-worker.js',
       scope: '/',
-    },
+    },*/
 
     // App routes
     routes: routes,
-    
+
   };
 
   f7ready(() => {
@@ -44,7 +44,7 @@ const MyApp = () => {
 
       {/* Your main view, should have "view-main" class */}
       <View main className="safe-areas" url="/" />
-      
+
     </App>
   )
 }
