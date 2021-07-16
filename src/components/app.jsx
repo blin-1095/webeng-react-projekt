@@ -1,15 +1,9 @@
 import React from 'react';
 
 import {
-  f7,
   f7ready,
   App,
-  Panel,
   View,
-  Page,
-  Navbar,
-  Block,
-
 } from 'framework7-react';
 
 
@@ -23,10 +17,10 @@ const MyApp = () => {
   const f7params = {
     name: 'Map\'edia', // App name
     theme: 'auto', // Automatic theme detection
-    /*serviceWorker: {
-      path: '../service-worker.js',
-      scope: '/',
-    },*/
+    
+    serviceWorker: {
+      path: "/serviceworker.js",
+  },
 
     // App routes
     routes: routes,

@@ -1,7 +1,8 @@
 {
   "cwd": "/Users/Alex/repos/webeng-react-projekt",
   "type": [
-    "web"
+    "web",
+    "pwa"
   ],
   "name": "Map'edia",
   "framework": "react",
