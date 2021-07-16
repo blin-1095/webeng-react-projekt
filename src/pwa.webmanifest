@@ -1,7 +1,7 @@
 {
-  "name": "Map'edia",
-  "short_name": "Map'edia",
-  "description": "Map'edia",
+  "name": "Map/'edia",
+  "short_name": "Map/'edia",
+  "description": "Map/'edia",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",

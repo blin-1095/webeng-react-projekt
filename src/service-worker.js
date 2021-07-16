@@ -14,7 +14,7 @@ self.addEventListener('install', event => {
             .then(cache => cache.addAll([
                 './',
                 './index.html',
-                './manifest.json',
+                './pwa.webmanifest',
                 './service-worker.js',
                 './components/app.jsx',
                 './css/app.css',

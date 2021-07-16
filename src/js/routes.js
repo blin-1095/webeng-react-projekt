@@ -13,6 +13,10 @@ var routes = [
     component: AboutPage,
   },
   {
+    path: '/manifest.json/',
+    component: '../manifest.json',
+  },
+  {
     path: '(.*)',
     component: NotFoundPage,
   },
