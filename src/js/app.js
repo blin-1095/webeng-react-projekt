@@ -26,3 +26,9 @@ ReactDOM.render(
   React.createElement(App),
   document.getElementById('app'),
 );
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../service-worker.js')
+    .then(reg => console.log('Registrierung erfolgreich. Scope ist ' + reg))
+    .catch(err => console.log('Registrierung fehlgeschlagen mit ' + err));
+}
