@@ -6,7 +6,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const path = require('path');
 
 function resolvePath(dir) {
@@ -197,10 +197,16 @@ module.exports = {
           from: resolvePath('src/static'),
           to: resolvePath('www/static'),
         },
-
+        {
+          noErrorOnMissing: true,
+          from: resolvePath('src/manifest.json'),
+          to: resolvePath('www/manifest.json'),
+        },
       ],
     }),
 
-
+    new WorkboxPlugin.InjectManifest({
+      swSrc: resolvePath('src/service-worker.js'),
+    }),
   ],
 };

@@ -1,11 +1,12 @@
 {
-  "cwd": "/Users/Alex/repos/webeng-react-projekt",
+  "cwd": "C:\\Users\\danie\\Documents\\fw7_pwa",
   "type": [
+    "pwa",
     "web"
   ],
   "name": "Map'edia",
   "framework": "react",
-  "template": "single-view",
+  "template": "blank",
   "cssPreProcessor": false,
   "bundler": "webpack",
   "webpack": {
@@ -16,10 +17,10 @@
     "inlineAssets": true
   },
   "theming": {
-    "customColor": true,
-    "color": "#7ED957",
+    "customColor": false,
+    "color": "#007aff",
     "darkTheme": false,
-    "iconFonts": true,
+    "iconFonts": false,
     "fillBars": false
   },
   "customBuild": false
