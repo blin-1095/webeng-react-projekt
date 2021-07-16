@@ -17,10 +17,10 @@
     "inlineAssets": true
   },
   "theming": {
-    "customColor": false,
-    "color": "#007aff",
+    "customColor": true,
+    "color": "#7ED957",
     "darkTheme": false,
-    "iconFonts": false,
+    "iconFonts": true,
     "fillBars": false
   },
   "customBuild": false

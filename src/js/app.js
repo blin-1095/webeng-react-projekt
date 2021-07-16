@@ -12,14 +12,11 @@ import Framework7React from 'framework7-react';
 import 'framework7/framework7-bundle.css';
 
 // Import Icons and App Custom Styles
-
+import '../css/icons.css';
 import '../css/app.css';
 
 // Import App Component
 import App from '../components/app.jsx';
-
-//Import Service Worker
-import * as serviceWorker from "../serviceworker"
 
 // Init F7 React Plugin
 Framework7.use(Framework7React)
@@ -29,5 +26,3 @@ ReactDOM.render(
   React.createElement(App),
   document.getElementById('app'),
 );
-
-serviceWorker.register();

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
+  f7,
   f7ready,
   App,
   View,
@@ -8,6 +9,7 @@ import {
 
 
 import routes from '../js/routes';
+import store from '../js/store';
 
 const MyApp = () => {
 
@@ -15,15 +17,18 @@ const MyApp = () => {
   // Framework7 Parameters
   const f7params = {
     name: 'Map\'edia', // App name
-    theme: 'auto', // Automatic theme detection
-    
-    serviceWorker: {
-      path: "/serviceworker.js",
-  },
+      theme: 'auto', // Automatic theme detection
 
-    // App routes
-    routes: routes,
 
+
+      // App store
+      store: store,
+      // App routes
+      routes: routes,
+      // Register service worker
+      serviceWorker: {
+        path: '/service-worker.js',
+      },
   };
 
   f7ready(() => {
@@ -35,8 +40,8 @@ const MyApp = () => {
   return (
     <App { ...f7params } >
 
-      {/* Your main view, should have "view-main" class */}
-      <View main className="safe-areas" url="/" />
+        {/* Your main view, should have "view-main" class */}
+        <View main className="safe-areas" url="/" />
 
     </App>
   );
