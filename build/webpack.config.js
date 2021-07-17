@@ -207,6 +207,7 @@ module.exports = {
 
     new WorkboxPlugin.InjectManifest({
       swSrc: resolvePath('src/service-worker.js'),
+      maximumFileSizeToCacheInBytes: 10000000
     }),
   ],
 };

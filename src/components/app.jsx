@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import {
-  f7,
   f7ready,
   App,
   View,
