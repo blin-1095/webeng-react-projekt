@@ -29,76 +29,79 @@ const default_coordinates = [47.66, 9.48];
  * @returns {JSX.Element} marker with interactive popup
  */
 function DestinationMarker({getLocationInfo, position, wikiResult, wikiResultText, setRoutingVisibility, routingVisibility}) {
-  
-  const provider = new OpenStreetMapProvider();
 
-  //settings of searchbar
-  const searchControl = new GeoSearchControl({
-    provider: provider,
-    style: 'button',
-    autoClose: true,
-  });
-  //clickevent
-  const map = useMapEvents({
-    click(ev) {
-      getLocationInfo(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat);
-    }
-  })
-  //searchbarevent
-  useEffect(() => {
-    map.addControl(searchControl);
-    map.on('geosearch/showlocation', (ev) => {
-      getLocationInfo(ev.location.x, ev.location.y);
+  
+    const provider = new OpenStreetMapProvider();
+
+    //settings of searchbar
+    const searchControl = new GeoSearchControl({
+      provider: provider,
+      style: 'button',
+      autoClose: true,
+    });
+
+    //clickevent
+    const map = useMapEvents({
+      click(ev) {
+        getLocationInfo(map.mouseEventToLatLng(ev.originalEvent).lng, map.mouseEventToLatLng(ev.originalEvent).lat);
+      }
     })
-    return () => map.removeControl(searchControl);
-  }, [])
-  
-  return position === null ? null : (
-    <Marker position={position}>  
-      <Popup>
-        <BlockTitle style={{textAlign: 'center'}} medium>{wikiResult}</BlockTitle>
-        <Block strong>
-          <Row>
-          <Col tag="span">
-            <Button style={{margin: '2px'}} raised outline round onClick={() => setRoutingVisibility(!routingVisibility)}>
-              {routingVisibility ? "Remove Route" : "Plot Route"}
-            </Button>
-          </Col>
-          </Row>
-          <Row>
-          <Col tag="span">
-            <Button style={{margin: '2px'}} raised outline round sheetOpen=".wiki-sheet">
-              Wikipedia
-            </Button>
-          </Col>
-          </Row>
-        </Block>
 
-        <Sheet
-          className="wiki-sheet"
-          style={{ height: 'auto', '--f7-sheet-bg-color': '#fff' }}
-          push
-          >
-          <Toolbar>
-            <div className="left"></div>
-            <div className="right">
-              <Link sheetClose>Close</Link>
-            </div>
-          </Toolbar>
-            <PageContent>
-              <BlockTitle medium>{wikiResult}</BlockTitle>
-              <Block>
-                <div>
-                  {wikiResultText.length > 500 ? wikiResultText.substring(0, 800) + '[...]' : wikiResultText }
-                </div>
-              </Block>
-            </PageContent>
-        </Sheet>
-      </Popup>
-      
-    </Marker>
-  )
-}
+    //searchbarevent
+    useEffect(() => {
+      map.addControl(searchControl);
+      map.on('geosearch/showlocation', (ev) => {
+        getLocationInfo(ev.location.x, ev.location.y);
+      })
+      return () => map.removeControl(searchControl);
+    }, [])
+    
+    return position === null ? null : (
+      <Marker position={position}>  
+        <Popup>
+          <BlockTitle style={{textAlign: 'center'}} medium>{wikiResult}</BlockTitle>
+          <Block strong>
+            <Row>
+            <Col tag="span">
+              <Button style={{margin: '2px'}} raised outline round onClick={() => setRoutingVisibility(!routingVisibility)}>
+                {routingVisibility ? "Remove Route" : "Plot Route"}
+              </Button>
+            </Col>
+            </Row>
+            <Row>
+            <Col tag="span">
+              <Button style={{margin: '2px'}} raised outline round sheetOpen=".wiki-sheet">
+                Wikipedia
+              </Button>
+            </Col>
+            </Row>
+          </Block>
+
+          <Sheet
+            className="wiki-sheet"
+            style={{ height: 'auto', '--f7-sheet-bg-color': '#fff' }}
+            push
+            >
+            <Toolbar>
+              <div className="left"></div>
+              <div className="right">
+                <Link sheetClose>Close</Link>
+              </div>
+            </Toolbar>
+              <PageContent>
+                <BlockTitle medium>{wikiResult}</BlockTitle>
+                <Block>
+                  <div>
+                    {wikiResultText.length > 500 ? wikiResultText.substring(0, 800) + '[...]' : wikiResultText }
+                  </div>
+                </Block>
+              </PageContent>
+          </Sheet>
+        </Popup>
+        
+      </Marker>
+    )
+  }
 
 /**
  * Sets user location marker
@@ -136,7 +139,7 @@ function LocationMarker({ownPosition, setOwnPosition}) {
 
     return ownPosition === null ? null : (
       <Marker draggable={true} position={ownPosition} eventHandlers={eventHandlers} ref={markerRef}>
-        <Popup>You are here<br/>(Drag me if I'm wrong)</Popup>
+        <Popup><h4 style={{textAlign: 'center'}}>You are here</h4><br/>(Drag me if I'm wrong)</Popup>
       </Marker>
     )
   }
@@ -152,6 +155,9 @@ const MapObj = () => {
     const [position, setPosition] = useState(null);
     const [ownPosition, setOwnPosition] = useState(null);
     const [routingVisibility, setRoutingVisibility] = useState(false);
+
+    //Check if internet is available
+    
 
     //Set position and uses WikiApi
     const getLocationInfo = (lng, lat) => {
@@ -176,7 +182,7 @@ const MapObj = () => {
 
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png"
                 continuousWorld={false}
             />
             <LocationMarker ownPosition={ownPosition} setOwnPosition={setOwnPosition}/>
