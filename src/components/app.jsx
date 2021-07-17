@@ -9,7 +9,6 @@ import {
 
 
 import routes from '../js/routes';
-import store from '../js/store';
 
 const MyApp = () => {
 
@@ -19,10 +18,6 @@ const MyApp = () => {
     name: 'Map\'edia', // App name
       theme: 'auto', // Automatic theme detection
 
-
-
-      // App store
-      store: store,
       // App routes
       routes: routes,
       // Register service worker

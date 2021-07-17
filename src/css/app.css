@@ -125,7 +125,7 @@
 .leaflet-routing-collapse-btn {
   position: absolute;
   top: 0;
-  right: 6px;
+  right: 15px;
   font-size: 24px;
   color: #ccc;
   font-weight: bold;
@@ -135,14 +135,16 @@
   content: "\00d7";
 }
 
+
 .leaflet-routing-container-hide .leaflet-routing-collapse-btn {
   position: relative;
   left: 4px;
   top: 4px;
   display: block;
   width: 26px;
-  height: 23px;
+  height: 26px;
 }
+
 
 .leaflet-routing-container-hide .leaflet-routing-collapse-btn:after {
   content: none;

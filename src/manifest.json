@@ -1,12 +1,12 @@
 {
   "name": "Map'edia",
   "short_name": "Map'edia",
-  "description": "Map'edia",
+  "description": "Route planning and Wikipedia in one!",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#EE350F",
-  "theme_color": "#EE350F",
+  "background_color": "#FFFFFF",
+  "theme_color": "#7ED957",
   "icons": [
     {
       "src": "/static/icons/128x128.png",
